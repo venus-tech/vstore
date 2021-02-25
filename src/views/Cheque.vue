@@ -16,15 +16,15 @@
     />
     
     <v-card-title >
-      [#{{cheque.id}}] {{cheque.status}}
+      المتسلسل : {{cheque.serial_number}}
       <v-spacer></v-spacer>
-      {{cheque.serial_number}}
+      [#{{cheque.id}}] {{cheque.status}}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-title >
-      {{cheque.date}}
+      التاريخ: {{cheque.date}}
       <v-spacer></v-spacer>
-      {{cheque.payer_name}}
+      العميل: {{cheque.payer_name}}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-title >

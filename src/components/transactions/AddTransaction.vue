@@ -16,6 +16,15 @@
       <v-card-text class="pa-6">
         <v-row>
           <v-col>
+              <v-select
+                outlined
+                :items="typeOptions"
+                v-model="transaction.type"
+                label="نوع المعاملة"
+                :error-messages="typeErrors"
+              ></v-select>
+          </v-col>
+          <v-col>
             <v-text-field 
                 type="number" 
                 :min="0.01" 
@@ -26,15 +35,6 @@
                 suffix="  جنيه"
                 :step="0.01"
             ></v-text-field>
-          </v-col>
-          <v-col>
-              <v-select
-                outlined
-                :items="typeOptions"
-                v-model="transaction.type"
-                label="نوع المعاملة"
-                :error-messages="typeErrors"
-              ></v-select>
           </v-col>
         </v-row>
         <v-row>
@@ -91,7 +91,6 @@ export default {
       this.amountErrors = [];
       this.typeErrors = [];
       if (this.transaction.amount < 0.01){
-        console.log('amount error')
         this.amountErrors.push('اقل مبلغ ممكن هو 0.01 جنيه');
         return false;
       }

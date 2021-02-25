@@ -34,6 +34,9 @@ export default {
 		},
 		notes(state){
 			return state.notes;
+		},
+		export(state){
+			return JSON.stringify(state);
 		}
 	},
 	mutations: {
@@ -80,6 +83,16 @@ export default {
 			state.discount = 0.0,
 			state.notes = '',
 			state.currentStep = 1
+		},
+		import(state, cart){
+			state.orderType = cart.orderType,
+			state.employee = cart.employee,
+			state.agency = cart.agency,
+			state.agentName = cart.agentName,
+			state.products = cart.products,
+			state.discount = cart.discount,
+			state.notes = cart.notes,
+			state.currentStep = cart.currentStep
 		}
 	},
 	actions: {}

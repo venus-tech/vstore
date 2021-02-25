@@ -13,9 +13,7 @@
       </v-card-title>
     </v-card>
     <h2 style="text-align:center">
-      شركة أولاد عثمان
-      <br>
-      For Cosmetics supplement medical, Perfumes & Baby supplies
+      {{CompanyInformations.name}}
     </h2>
     <br>
     <h2 style="text-align:center">
@@ -53,25 +51,38 @@
 
     <br>
     <h3 class="pa-3">
-      ارقام الهاتف : 0910003603, 0123369422
+      ارقام الهاتف الثابت : 
+      {{CompanyInformations.phone_numbers.join(', ')}}
+      
     </h3>
     <hr>
     <h3 class="pa-3">
-      الثابت : 0155133303
+      ارقام الهاتف الجوال :
+      {{CompanyInformations.mobile_numbers.join(', ')}}
+      
     </h3>
     <hr>
     <h3 class="pa-3">
-       whatsapp : 0910003603, 0923394011, 0128534861
+      حسابات واتساب : 
+      {{CompanyInformations.whatsapp_accounts.join(', ')}}
+      
     </h3>
     <hr>
     <h3 class="pa-3">
-      الموقع : سوق امدرمان - عمارة بابكر الرفاعي - جوار عمارة البرير
+      مواقعانا : <br><br>
+      <p v-for="(location,index) of CompanyInformations.locations" :key="index">{{location}}</p>      
     </h3>
   </div>
 </template>
 
 <script>
 export default {
+  data: ()=>({
+    CompanyInformations: {},
+  }),
+  created(){
+    this.CompanyInformations = JSON.parse(window.localStorage.getItem('companyInformations'));
+  },
   methods: {
     goBack(){
       window.history.back();

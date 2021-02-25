@@ -108,8 +108,8 @@ export default {
         ":notes": notes
       };
 
-      const response = await DB.run(sql, data);
-      console.log(response)
+      await DB.run(sql, data);
+
       const newProduct = {
         id: this.agency.id,
         name: name,

@@ -101,7 +101,6 @@ export default {
       };
 
       const response = await DB.run(sql, data);
-      console.log(response)
       const newProduct = {
         id: response.lastID,
         name: name,

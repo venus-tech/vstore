@@ -13,7 +13,7 @@
       </v-card-title>
     </v-card>
     <h2 style="text-align:center">
-      شركة أولاد عثمان
+      {{CompanyInformations.name}}
     </h2>
     <br>
     <h3 style="text-align:center">
@@ -65,9 +65,11 @@ export default {
     products:[],
     order: {},
     agency: {},
-    employee: {}
+    employee: {},
+    CompanyInformations: {}
   }),
   async created(){
+    this.CompanyInformations = JSON.parse(window.localStorage.getItem('companyInformations'));
     this.loading = true;
     await this.loadOrder();
     await this.loadProucts();

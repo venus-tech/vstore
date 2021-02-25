@@ -128,8 +128,8 @@
             <Overview @continue="step = 7;" />
           </v-stepper-content>
           <v-stepper-content step="7">
-            <SavePrint @continue="step = 8;saveOrder()" />
-          </v-stepper-content>
+            <SavePrint @continue="step = 8;saveOrder()" @saveProformaInvoice="saveProformaInvoice" />
+          </v-stepper-content> 
         </v-stepper-items>
       </v-stepper>
     </v-card-text>
@@ -232,8 +232,6 @@ export default {
 
       const response = await DB.run(addOrderSQL, orderData);
 
-      console.log(response)
-
       const orderId = response.lastID;
 
       const addProductsSQL = `
@@ -283,21 +281,39 @@ export default {
 
         await DB.run(updateInStoreQuantitySQL, updateInStoreQuantityData);
       }
-      this.resetCart('/orders/'+orderId);
-      
-      this.$emit('inserted', orderId);
+
+      this.step = 1;
+      try {
+        this.$store.commit('Cart/resetCart'); 
+        this.$router.push('/orders/'+orderId)
+        this.$emit('inserted', orderId); 
+      } catch (error) {
+        console.error(error)
+      }
       
     },
-    resetCart(distination){
+    resetCart(){
       this.step = 1;
       try {
         this.$store.commit('Cart/resetCart');  
       } catch (error) {
         console.error(error)
       }
-      if(distination) this.$router.push(distination);
-      else window.history.back();
+      window.history.back();
       this.showConfirmReset = false;
+    },
+    async saveProformaInvoice(){
+      const DB = await db.getConnection();
+
+      const addCartSQL = `
+        INSERT INTO proforma_invoice (data) VALUES (:data)
+      `;
+
+      const cartData = this.$store.getters['Cart/export'];
+      
+      const response = await DB.run(addCartSQL, cartData);
+
+      console.log(response);
     }
   }
 }

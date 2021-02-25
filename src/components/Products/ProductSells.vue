@@ -83,6 +83,7 @@ export default {
         },
         {
           text : 'الربح',
+          align: 'left',
           value: 'unit'
         }
       ],

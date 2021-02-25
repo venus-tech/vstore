@@ -22,6 +22,14 @@
               outlined
             ></v-text-field>
           </v-col>
+          <v-col>
+            <v-select
+              :items="['مرور', 'ارجاع', 'فحص' ]"
+              v-model="cheque.status"
+              label="حالة الشيك"
+              outlined
+            ></v-select>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -121,6 +129,7 @@ export default {
     cheque: {
       id: null,
       serial_number: '',
+      status: 'فحص',
       payer_name: '',
       date: '1950-01-01',
       amount: 0.0,
@@ -178,13 +187,14 @@ export default {
       this.cheque.serial_number = serialNumber ;
 
       const sql = `
-        INSERT INTO cheques (payer_name, serial_number, area, bank, branch, date, amount, notes)
-        VALUES (:payer_name, :serial_number, :area, :bank, :branch, :date, :amount, :notes)
+        INSERT INTO cheques (payer_name, serial_number, status, area, bank, branch, date, amount, notes)
+        VALUES (:payer_name, :serial_number, :status, :area, :bank, :branch, :date, :amount, :notes)
       `;
 
       const data = {
         ":payer_name": this.cheque.payer_name,
         ":serial_number": this.cheque.serial_number,
+        ":status": this.cheque.status,
         ":area": this.cheque.area,
         ":bank": this.cheque.bank,
         ":branch": this.cheque.branch,
@@ -196,7 +206,6 @@ export default {
       const response = await DB.run(sql, data);
 
       this.cheque.id = response.lastID ;
-      console.log(response)
       this.$emit('inserted', this.cheque);
     }
   }

@@ -11,6 +11,9 @@
           <v-col>
             <v-text-field v-model="employee.name" :error-messages="nameErrors" counter="127" label="الإسم" outlined></v-text-field>
           </v-col>
+          <v-col>
+            <v-text-field v-model="employee.job" counter="127" label="الوظيفة" outlined></v-text-field>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -20,7 +23,7 @@
               :min="0"
               step="0.01"
               suffix=" جنيه سوداني "
-              label="الراتب"
+              label="المرتب"
               outlined
             ></v-text-field>
           </v-col>

@@ -74,16 +74,9 @@ export default {
           value: 'sell_quantity'
         },
         {
-          text : 'السعر',
-          value: 'price'
-        },
-        {
-          text : 'الشراء',
-          value: 'buy_price'
-        },
-        {
-          text : 'الربح',
-          value: 'unit'
+          text : 'سعر الشراء',
+          value: 'buy_price',
+          align: 'left'
         }
       ],
       sells: []

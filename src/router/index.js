@@ -70,7 +70,7 @@ const routes = [
   },
   {
     path : '/transactions/:id' ,
-    name : 'Transactions' ,
+    name : 'Transaction' ,
     component : () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue')
   },
   {
@@ -89,6 +89,11 @@ const routes = [
     component : () => import(/* webpackChunkName: "Statistics" */ '../views/Statistics.vue')
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    component : () => import(/* webpackChunkName: "Statistics" */ '../views/Settings.vue')
+  },
+  {
     path : '/makeOrder' ,
     name : 'MakeOrder' ,
     component : () => import(/* webpackChunkName: "makeOrder" */ '../views/MakeOrder.vue')
@@ -97,6 +102,11 @@ const routes = [
     path : '/print/transactions/:id' ,
     name : 'printTransaction' ,
     component : () => import(/* webpackChunkName: "printTransaction" */ '../views/print/transaction.vue')
+  },
+  {
+    path : '/print/products' ,
+    name : 'printProducts' ,
+    component : () => import(/* webpackChunkName: "printTransaction" */ '../views/print/products.vue')
   },
   {
     path : '/print/orders/:id' ,

@@ -6,15 +6,14 @@
         @canceled="showAddTransactionDialog = false"
         @inserted="insertNew"
       />
-      <v-card-title >
-          <v-btn color="primary" x-large @click="showAddTransactionDialog = true">
-              <v-icon left>mdi-plus</v-icon>
-              <span>إضافة معاملة مالية</span>
-          </v-btn>
-      </v-card-title>
-      
       <v-card-title>
       <v-row>
+        <v-col cols="4">
+          <v-btn color="primary" x-large @click="showAddTransactionDialog = true">
+            <v-icon left>mdi-plus</v-icon>
+            <span>إضافة معاملة مالية</span>
+          </v-btn>
+        </v-col>
         <v-col>
           <v-text-field v-model="search" append-icon="mdi-magnify" label="فلترة المعاملات" outlined></v-text-field>
         </v-col>

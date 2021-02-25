@@ -11,7 +11,7 @@
     </v-card-title>
       <v-card-actions class="pa-4">
         <v-spacer></v-spacer>
-        <v-btn color="success" x-large @click="toNext" :disabled="name.trim().length < 3 && $store.getters['Cart/orderType'] == 'تصدير'">
+        <v-btn color="success" x-large @click="toNext">
           متابعة
         </v-btn>
       </v-card-actions>
@@ -29,10 +29,10 @@ export default {
   },
   methods: {
     toNext(){
-      if(this.name.trim().length < 3 && this.$store.getters['Cart/orderType'] == 'تصدير'){
+      /*if(this.name.trim().length < 3 && this.$store.getters['Cart/orderType'] == 'تصدير'){
         this.nameErrors.push('يجب ان يحتوي الاسم على 3 احرف على الاقل');
         return false;
-      }
+      }*/
       this.$store.commit('Cart/setAgentName', this.name);
       this.$emit('continue', 'GUI event')
     }

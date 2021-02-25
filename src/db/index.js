@@ -21,9 +21,9 @@ isBuild ? __dirname : __static,
 'databases/store.db',
 );*/
 
-const {remote} = require('electron') ;
+const electron = require('electron');
 
-const dbPath = path.join(remote.process.env.APPDATA , 'vstore-manager' , 'databases' , 'store.db');
+const dbPath = path.join(electron.remote.app.getPath('userData') , 'databases' , 'store.db');
 
 export default {
     /*getDb(){
@@ -47,7 +47,7 @@ export default {
     },*/
     async getConnection(){
         try {
-            console.log(dbPath);
+            //console.log(dbPath);
             this.DBConnection = await Database.open(dbPath);
             return this.DBConnection ;
         }catch(e){

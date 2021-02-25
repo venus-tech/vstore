@@ -208,9 +208,8 @@ export default {
         ":status": this.cheque.status
       };
 
-      const response = await DB.run(sql, data);
+      await DB.run(sql, data);
 
-      console.log(response)
       this.$emit('updated', this.cheque);
     }
   }

@@ -40,9 +40,19 @@
                 <v-icon v-if="Number(item.quantity) > 1">mdi-minus</v-icon>
                 <v-icon v-else>mdi-delete</v-icon>
             </v-btn> 
-            <span class="mx-2">
-                {{item.quantity}} {{ item.unit }}
-            </span>
+            <v-text-field
+                class="d-inline-block my-2 mx-2"
+                style="width: 150px"
+                :ref="item.id+'#textfield'"
+                v-model="item.quantity"
+                type="number"
+                step="1"
+                outlined
+                :suffix="item.unit"
+                :min="0.1"
+                :max="Number(item.in_store_quantity)"
+            ></v-text-field>
+            
             <v-btn 
                 icon 
                 color="success" 
@@ -109,6 +119,9 @@ export default {
         },
         decreamentQuantity(item){
             this.$store.commit('Cart/decrementProductQuantity' , item);
+        },
+        setQuantity(item, ref){ 
+            console.log(this.$refs[ref].value, item)
         }
     },
     computed: {

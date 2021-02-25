@@ -149,7 +149,6 @@ export default {
     addToCart(item){
       ++item.quantity ;
       this.$store.commit('Cart/addProducts' , item);
-      console.log(this.$store.getters['Cart/products'])
     }
   }
 }

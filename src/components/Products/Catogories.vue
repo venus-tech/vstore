@@ -66,9 +66,11 @@ export default {
     };
   },
   async created(){
+
     const connection = await db.getConnection();
     this.db = connection ;
     await this.loadCatogories();
+
   },
   
   methods:{

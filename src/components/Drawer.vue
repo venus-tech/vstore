@@ -43,17 +43,18 @@ export default {
       drawer: true,
       items: [
         { title: "الرئيسية", icon: "mdi-view-dashboard-outline", route: "/" },
-        { title: "المنتجات", icon: "mdi-barcode", route: "/products" },
-        { title: "المتاجر", icon: "mdi-store", route: "/agents" },
+        { title: "المنتجات والاصناف", icon: "mdi-barcode", route: "/products" },
+        { title: "الطلبيات", icon: "mdi-shopping", route: "/orders" },
+        { title: "المتاجر و العملاء", icon: "mdi-account-group-outline", route: "/agents" },
         {
           title: "الموظفين",
-          icon: "mdi-account-group-outline",
+          icon: "mdi-account-tie",
           route: "/employees"
         },
-        { title: "الطلبيات", icon: "mdi-shopping", route: "/orders" },
         { title: "الشيكات", icon: "mdi-card-bulleted-outline", route: "/cheques" },
         { title: "حركة مالية", icon: "mdi-cash-register", route: "/transactions" },
         { title: "إحصائيات", icon: "mdi-chart-areaspline", route: "/statistics" },
+        { title: "الإعدادات", icon: "mdi-settings", route: "/settings" },
       ],
       mini: true
     };

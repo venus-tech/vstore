@@ -1,8 +1,9 @@
 <template>
-  <v-card>
+  <v-card :loading="loading">
     <ConfirmDeletion 
       :show="showCancelDialog"
       @canceled="showCancelDialog = false"
+      @confirmed="cancelOrder"
       title="هل فعلا تريد الغاء الطلبية"
       text="يترتب على هذا الاجراء حذف جميع بيانات العملية مما يعني الغاء طلب المنتجات واعادتها الى المخزن مرة اخرى"
     />
@@ -52,14 +53,17 @@
             المبلغ الكلي : {{order.total_bill}} ج
             <v-spacer></v-spacer>
             التخفيض: {{order.discount}} ج
-            <v-spacer></v-spacer>
+          </v-card-title>
+          <v-card-title>
             المطلوب : {{Number(order.total_bill) - Number(order.discount)}} ج
             <v-spacer></v-spacer>
             المدفوع : {{order.payed}} ج
-            <v-spacer></v-spacer>
-            المتبقي :  <span :class="{'red--text':Number(order.total_bill) - Number(order.discount) - Number(order.payed) > 0}">
-              {{Number(order.total_bill) - Number(order.discount) - Number(order.payed) }} ج
-            </span>          
+            <v-spacer v-if="order.type == 'تصدير'"></v-spacer>
+            <span v-if="order.type == 'تصدير'">
+              المتبقي :  <span :class="{'red--text':Number(order.total_bill) - Number(order.discount) - Number(order.payed) > 0}">
+                {{Number(order.total_bill) - Number(order.discount) - Number(order.payed) }} ج
+              </span>          
+            </span>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-title >
@@ -75,11 +79,11 @@
           
           <v-divider></v-divider>
           <v-card-actions class="pa-4">
-            <v-btn color="info" large route :to='`/print/orders/${order.id}`'>
+            <v-btn color="info" x-large route :to='`/print/orders/${order.id}`'>
               <v-icon right>mdi-printer</v-icon>
               <span>طباعة</span>
             </v-btn>
-            <!--
+            <v-spacer></v-spacer>
             <v-btn color="error" x-large @click="showCancelDialog = true">
               <v-icon left>mdi-cancel</v-icon>
               <span>إلغاء الطلبية</span>
@@ -89,7 +93,7 @@
               <v-icon left>mdi-delete</v-icon>
               <span>حذف الطلبية</span>
             </v-btn>
-            -->
+            
           </v-card-actions>
           
         </v-card>
@@ -116,6 +120,7 @@ export default {
   components:{OrderProducts, OrderPayments, ConfirmDeletion},
   data() {
     return {
+      loading: false,
       showCancelDialog: false,
       showRemoveDialog: false,
       tab: null,
@@ -142,11 +147,67 @@ export default {
         ":id": this.order.employee_id
       });
     },
+    async cancelOrder(){
+
+      //substract the products from
+      //delete all order payments
+      //delete all order products
+      //delete the order
+
+      this.showCancelDialog = false;
+
+      this.loading = true;
+
+      const DB = await db.getConnection();
+
+      let multiplicationProduct = -1 ;
+      if(this.order.type == 'تصدير'){
+        multiplicationProduct = 1 ;
+      }
+
+      const products = await DB.all(`
+        SELECT 
+          product_id, 
+          (quantity * :MP ) as quantity 
+        FROM order_product 
+        WHERE order_id = :id 
+      `,{
+        ":MP": multiplicationProduct,
+        ":id":this.order.id
+      });
+
+      for (let i = 0 ; i < products.length; i++){
+        await DB.run(`
+          UPDATE products 
+          SET in_store_quantity = in_store_quantity + :Q 
+          WHERE id = :id`,{
+          ":Q" : products[i].quantity,
+          ":id": products[i].product_id
+        });
+      }
+
+      await DB.run('DELETE FROM order_payment WHERE order_id = :id', {":id": this.order.id});
+      await DB.run('DELETE FROM order_product WHERE order_id = :id', {":id": this.order.id});
+      await DB.run('DELETE FROM orders WHERE id = :id', {":id": this.order.id});
+      
+      this.loading = false ;
+      window.history.back();
+    },
     async removeOrder(){
-      //const DB = await db.getConnection();
-      //const deleteOrderSQL = `DELETE `;
-      //const deleteOrderProductsSQL = `` ;
-      //const deleteOrderPaymentsSQL = `` ;
+
+      this.showRemoveDialog = false;
+
+      this.loading = true;
+      const DB = await db.getConnection();
+      //delete all order payments
+      //delete all order products
+      //delete the order
+      
+      await DB.run('DELETE FROM order_payment WHERE order_id = :id', {":id": this.order.id});
+      await DB.run('DELETE FROM order_product WHERE order_id = :id', {":id": this.order.id});
+      await DB.run('DELETE FROM orders WHERE id = :id', {":id": this.order.id});
+      this.loading = false;
+      window.history.back();
     }
   }
 };

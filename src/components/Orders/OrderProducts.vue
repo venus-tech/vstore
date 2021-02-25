@@ -38,6 +38,11 @@
             {{ Number(item.price) * Number(item.quantity) }} ج
           </strong>
         </template>
+        <template v-slot:item.total_buy_price="{item}">
+          <strong >
+            {{ Number(item.buy_price) * Number(item.quantity) }} ج
+          </strong>
+        </template>
         <template v-slot:item.buy_price="{item}">
           <strong >
             {{ item.buy_price }} ج
@@ -77,16 +82,20 @@ export default {
         "value": "quantity"
       },
       {
-        "text": "السعر",
+        "text": " الشراء",
+        "value": "buy_price"
+      },
+      {
+        "text": " الشراء الكلي",
+        "value": "total_buy_price"
+      },
+      {
+        "text": "البيع",
         "value": "price"
       },
       {
-        "text": "السعر الكلي",
+        "text": " البيع الكلي",
         "value": "total_price"
-      },
-      {
-        "text": "سعر الشراء",
-        "value": "buy_price"
       },
       {
         "text": "الربح",
@@ -111,6 +120,7 @@ export default {
           order_product.quantity as quantity,
           order_product.price as price,
           0 as total_price,
+          0 as total_buy_price,
           order_product.buy_price as buy_price,
           0 as profit
         FROM order_product 

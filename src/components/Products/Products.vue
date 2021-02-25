@@ -2,6 +2,12 @@
   <v-card flat>
     <v-card-title>
       <v-row>
+        <v-col cols="4">
+          <v-btn color="info" x-large route to="/print/products">
+            <v-icon left>mdi-printer</v-icon>
+            <span>طباعة</span>
+          </v-btn>
+        </v-col>
         <v-col >
           <v-text-field v-model="search" append-icon="mdi-magnify" label="فلترة المنتجات" outlined></v-text-field>
         </v-col>
