@@ -235,9 +235,12 @@
                       <v-card outlined>
                         <v-card-title primary-title>
                           هيكل الضرائب
+                          <v-spacer></v-spacer>
+                          {{totalTaxes}}  <v-icon>mdi-currency-gbp</v-icon>
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text>
+                          
                           <v-data-table
                             :headers="taxsTableHeaders"
                             :items="taxsTableItems"
@@ -578,6 +581,19 @@ export default {
         sum += Number(item.value) ;
       }
       return sum ;
+    },
+    totalTaxes(){
+      let sum = 0;
+      let amount = 0;
+      for (let item of this.taxsTableItems){
+        amount = Number(item.value);
+        if (item.type == 'percent'){
+          amount = amount / 100;
+          amount = amount * this.price;  
+        }
+        sum += amount;
+      }
+      return sum;
     }
   }
 };

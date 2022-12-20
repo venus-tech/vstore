@@ -34,6 +34,12 @@
             لكل {{ item.unit }}
           </template>
 
+          <template v-slot:item.taxs_table="{ item }">
+            {{getUnitTotalTaxes(item.taxs_table, item.price)}}
+             <v-icon>mdi-currency-gbp</v-icon>
+            
+          </template>
+
           <template v-slot:item.in_store_quantity="{ item }">
             <strong :class="{'red--text' : Number(item.in_store_quantity) < 11.0}">
              {{ item.in_store_quantity }} {{ item.unit }}
@@ -91,6 +97,10 @@ export default {
         value: "price"
       },
       {
+        text: "الضريبة",
+        value: "taxs_table"
+      },
+      {
         text: "المتوفر",
         value: "in_store_quantity"
       },
@@ -132,6 +142,9 @@ export default {
           unit,
           category_id,
           in_store_quantity,
+          taxs_table,
+          (1+1) as total_price,
+          (1+1) as total_taxs,
           categories.name as category,
           0 as quantity,
           0 as total_sells,
@@ -149,7 +162,21 @@ export default {
     addToCart(item){
       ++item.quantity ;
       this.$store.commit('Cart/addProducts' , item);
-    }
+    },
+    getUnitTotalTaxes(taxs_table, unit_price){
+      taxs_table = JSON.parse(taxs_table);
+      let sum = 0;
+      let amount = 0;
+      for (let item of taxs_table){
+        amount = Number(item.value);
+        if (item.type == "percent"){
+          amount = amount / 100;
+          amount = amount * Number(unit_price);
+        }
+        sum += amount;
+      }
+      return sum;
+    },
   }
 }
 </script>

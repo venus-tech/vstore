@@ -72,15 +72,38 @@
             </span>
             
         </template>
+
+        <template v-slot:item.taxs_table="{ item }">
+            {{getUnitTotalTaxes(item.taxs_table, item.price)}}
+            <v-icon>mdi-currency-gbp</v-icon>   
+        </template>
+
+         <template v-slot:item.total_taxs="{ item }">
+            {{getUnitTotalTaxes(item.taxs_table, item.price)* Number(item.quantity)}}
+            <v-icon>mdi-currency-gbp</v-icon>   
+        </template>
+
+        <template v-slot:item.total_price="{ item }">
+            <span v-if="$store.getters['Cart/orderType'] == 'تصدير'" >
+                {{
+                    (Number(item.quantity) * Number(item.price)) 
+                    + 
+                    (getUnitTotalTaxes(item.taxs_table, item.price)* Number(item.quantity)) 
+                }} جنيه
+            </span>
+            <span v-if="$store.getters['Cart/orderType'] == 'توريد'" >
+                {{Number(item.quantity) * Number(item.buy_price)}} جنيه
+            </span>
+        </template>
     </v-data-table>
     
     </v-card-text>
-    <v-card-actions class="pa-4">
+    <!-- <v-card-actions class="pa-4">
         <v-spacer></v-spacer>
         <v-btn color="success" x-large @click="$emit('continue', 'GUI event')" :disabled="canContinue">
             متابعة
         </v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 
@@ -94,13 +117,19 @@ export default {
                 value: "name"
             },
             {
+                text: "المتوفر",
+                value: "in_store_quantity"
+            },
+            {
                 text: "السعر",
                 value: "price"
             },
             {
-                text: "المتوفر",
-                value: "in_store_quantity"
+                text: "الضريبة",
+                align: "center",
+                value: "taxs_table"
             },
+            
             {
                 text: "الكمية",
                 align: "center",
@@ -108,8 +137,18 @@ export default {
             },
             {
                 text: "المبلغ",
-                align: "left",
+                align: "centet",
                 value: "id"
+            },
+            {
+                text: "الضرائب",
+                align: "centet",
+                value: "total_taxs"
+            },
+            {
+                text: "المطلوب",
+                align: "left",
+                value: "total_price"
             }
         ],
     }),
@@ -122,7 +161,21 @@ export default {
         },
         setQuantity(item, ref){ 
             console.log(this.$refs[ref].value, item)
-        }
+        },
+        getUnitTotalTaxes(taxs_table, unit_price){
+            taxs_table = JSON.parse(taxs_table);
+            let sum = 0;
+            let amount = 0;
+            for (let item of taxs_table){
+            amount = Number(item.value);
+            if (item.type == "percent"){
+                amount = amount / 100;
+                amount = amount * Number(unit_price);
+            }
+            sum += amount;
+            }
+            return sum;
+        },
     },
     computed: {
         canContinue(){

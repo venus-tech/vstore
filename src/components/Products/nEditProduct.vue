@@ -241,6 +241,10 @@
                       <v-card outlined>
                         <v-card-title primary-title>
                           هيكل الضرائب
+                          <v-spacer></v-spacer>
+                          {{totalTaxes}}
+                          <v-icon>mdi-currency-gbp</v-icon>
+                          
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text>
@@ -467,6 +471,7 @@ export default {
       );
     },
     appendSpecsTableItem() {
+      alert('hello');
       this.product.specs_table.push({ name: "", value: "" });
     },
     removeExpensesTableItem(item) {
@@ -598,6 +603,19 @@ export default {
       let sum = 0;
       for (let item of this.product.costs_table) {
         sum += Number(item.value);
+      }
+      return sum;
+    },
+    totalTaxes(){
+      let sum = 0;
+      let amount = 0;
+      for (let item of this.product.taxs_table){
+        amount = Number(item.value);
+        if (item.type == "percent"){
+          amount = amount / 100;
+          amount = amount * Number(this.product.unit_price);
+        }
+        sum += amount;
       }
       return sum;
     },

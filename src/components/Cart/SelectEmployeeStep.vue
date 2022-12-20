@@ -37,10 +37,6 @@
         <v-btn color="info" large @click="showSelectEmployee = true">
           تغير الموظف المندوب
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="success" x-large @click="toNext" :disabled="showSelectEmployee">
-          متابعة
-        </v-btn>
       </v-card-actions>
     </div>
   </v-card>

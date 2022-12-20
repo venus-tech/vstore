@@ -17,9 +17,9 @@
         </v-tab><v-tab href="#transactions">
           المعاملات المالية
         </v-tab>
-        <v-tab href="#system">
+        <!-- <v-tab href="#system">
           اعدادات النظام
-        </v-tab>
+        </v-tab> -->
       </v-tabs>
     </v-card-title>
     <v-card-text class="pa-4 pt-6">

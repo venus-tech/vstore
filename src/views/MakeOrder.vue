@@ -8,8 +8,8 @@
       text="هذا الاجراء سيؤدي الى تفريغ جميع بيانات سلة المبيعات"
     />
     <v-card-text>
-      <v-stepper v-model="step" :alt-labels="true" :editable="true">
-        <v-stepper-header>
+      <v-stepper v-model="step" :alt-labels="true" :editable="true" class="elevation-0">
+        <v-stepper-header class="elevation-0">
           <v-stepper-step :complete="step > 1" step="1">
             <v-btn @click="step = 1" 
               :disabled="step < 1" 
@@ -17,38 +17,36 @@
               rounded 
               :color="step > 1 ? 'primary' : ''"
             >
-              نوع المعاملة
+             المعاملة
             </v-btn>
           </v-stepper-step>
 
           <v-divider></v-divider>
 
           <v-stepper-step :complete="step > 2" step="2">
-            <v-btn @click="step = 2" 
+             <v-btn @click="step = 2" 
               :disabled="step < 2" 
               :outlined="step == 2" 
               rounded 
               :color="step > 2 ? 'primary' : ''"
             >
-              المتجر
+              المنتجات
             </v-btn>
           </v-stepper-step>
 
           <v-divider></v-divider>
-
+          
           <v-stepper-step :complete="step > 3" step="3">
-            <v-btn @click="step = 3" 
+             <v-btn @click="step = 3" 
               :disabled="step < 3" 
               :outlined="step == 3" 
               rounded 
               :color="step > 3 ? 'primary' : ''"
             >
-              العميل
+              ملاحظات
             </v-btn>
           </v-stepper-step>
-
-          <v-divider></v-divider>
-
+          <!-- <v-divider></v-divider>
           <v-stepper-step :complete="step > 4" step="4">
              <v-btn @click="step = 4" 
               :disabled="step < 4" 
@@ -56,46 +54,9 @@
               rounded 
               :color="step > 4 ? 'primary' : ''"
             >
-              المنتجات
-            </v-btn>
-          </v-stepper-step>
-
-          <v-divider></v-divider>
-
-          <v-stepper-step :complete="step > 5" step="5">
-             <v-btn @click="step = 5" 
-              :disabled="step < 5" 
-              :outlined="step == 5" 
-              rounded 
-              :color="step > 5 ? 'primary' : ''"
-            >
-              المندوب
-            </v-btn>
-          </v-stepper-step>
-
-          <v-divider></v-divider>
-          <v-stepper-step :complete="step > 6" step="6">
-             <v-btn @click="step = 6" 
-              :disabled="step < 6" 
-              :outlined="step == 6" 
-              rounded 
-              :color="step > 6 ? 'primary' : ''"
-            >
-              ملاحظات
-            </v-btn>
-          </v-stepper-step>
-          
-          <v-divider></v-divider>
-          <v-stepper-step :complete="step > 7" step="7">
-             <v-btn @click="step = 7" 
-              :disabled="step < 7" 
-              :outlined="step == 7" 
-              rounded 
-              :color="step > 7 ? 'primary' : ''"
-            >
               الحفظ
             </v-btn>
-          </v-stepper-step>
+          </v-stepper-step> -->
         </v-stepper-header>
         <v-stepper-items>
           <v-stepper-content step="1">
@@ -104,41 +65,38 @@
         </v-stepper-items>
         <v-stepper-items>
           <v-stepper-content step="2">
-            <SelectAgencyStep @continue="step = 3" />
-          </v-stepper-content>
-        </v-stepper-items>
-        <v-stepper-items>
-          <v-stepper-content step="3">
-            <SetAgentName @continue="step = 4" />
-          </v-stepper-content>
-        </v-stepper-items>
-        <v-stepper-items>
-          <v-stepper-content step="4">
-            <SelectProduct @continue="step = 5" />
-          </v-stepper-content>
-        </v-stepper-items>
-        <v-stepper-items>
-          <v-stepper-content step="5">
-            <SelectEmplyee @continue="step = 6" />
+            <SelectProduct @continue="step = 3" />
           </v-stepper-content>
         </v-stepper-items>
         
         <v-stepper-items>
-          <v-stepper-content step="6">
-            <Overview @continue="step = 7;" />
+          <v-stepper-content step="3">
+            <Overview @continue="step = 4;" />
           </v-stepper-content>
-          <v-stepper-content step="7">
-            <SavePrint @continue="step = 8;saveOrder()" @saveProformaInvoice="saveProformaInvoice" />
-          </v-stepper-content> 
+          <!-- <v-stepper-content step="4">
+            <SavePrint @continue="step = 5;saveOrder()" @saveProformaInvoice="saveProformaInvoice" />
+          </v-stepper-content>  -->
         </v-stepper-items>
       </v-stepper>
     </v-card-text>
     <v-divider></v-divider>
-    <v-card-actions class="pa-3">
-      <v-spacer></v-spacer>
+    <v-card-actions class="pa-6">
       <v-btn @click="showConfirmReset = true" color="error" large class="mx-2">
         <v-icon>mdi-delete</v-icon>
         <span>تفريغ السلة</span>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn large  outlined color="blue" @click="step--" :disabled="step < 2">
+        <v-icon right>mdi-arrow-right</v-icon>
+        <span left>
+          السابق
+        </span>
+      </v-btn>
+      <v-btn large  outlined color="primary" @click="step++" :disabled="step > 2 || (step == 2 && this.$store.getters['Cart/products'].length < 1)">
+        <span right>
+          التالي
+        </span>
+        <v-icon left>mdi-arrow-left</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -147,20 +105,17 @@
 <script>
 import db from '../db' ;
 
-import SelectAgencyStep from '../components/Cart/SelectAgencyStep' ;
-import SetAgentName from '../components/Cart/SetAgentNameStep';
 import SetOrderType from '../components/Cart/SetOrderTypeStep';
 import SelectProduct from '../components/Cart/SelectProducts';
-import SelectEmplyee from '../components/Cart/SelectEmployeeStep';
 import Overview from '../components/Cart/Overview';
-import SavePrint from '../components/Cart/SavePrint';
+// import SavePrint from '../components/Cart/SavePrint';
 
 import ConfirmReset from '../components/ConfirmDeletion';
 
 export default {
   components: {
-    SelectAgencyStep, SetAgentName, SetOrderType,
-    SelectProduct, SelectEmplyee, Overview, SavePrint,
+    SetOrderType,
+    SelectProduct, Overview,
     ConfirmReset
   },
   data: ()=>({
@@ -292,10 +247,10 @@ export default {
       }
       
     },
-    resetCart(){
+    async resetCart(){
       this.step = 1;
       try {
-        this.$store.commit('Cart/resetCart');  
+        await this.$store.commit('Cart/resetCart');  
       } catch (error) {
         console.error(error)
       }

@@ -70,7 +70,7 @@
               <span>تعديل</span>
             </v-btn>  
             <v-spacer></v-spacer>
-            <v-btn color="error" large @click="showConfirmDeletion = true">
+            <v-btn color="error" large @click="showConfirmDeletion = true" v-if="$route.params.id != 0">
               <v-icon left>mdi-archive</v-icon>
               <span>ارشفة</span>
             </v-btn>            

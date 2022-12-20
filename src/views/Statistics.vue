@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>stats</h2>
     <inventory-count />
   </div>
 </template>

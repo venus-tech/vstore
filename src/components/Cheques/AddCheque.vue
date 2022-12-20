@@ -131,7 +131,7 @@ export default {
       serial_number: '',
       status: 'فحص',
       payer_name: '',
-      date: '1950-01-01',
+      date: '2021-07-01',
       amount: 0.0,
       area: '',
       bank: '',

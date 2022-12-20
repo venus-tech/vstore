@@ -26,9 +26,9 @@
         <v-icon right>mdi-file-outline</v-icon> بيانات المتجر
       </v-tab>
 
-      <v-tab href="#discounts">
+      <!-- <v-tab href="#discounts">
         <v-icon right>mdi-currency-usd-off</v-icon> الخصومات
-      </v-tab>
+      </v-tab> -->
 
       <v-tab href="#sells">
         <v-icon right>mdi-cart-arrow-up</v-icon> المبيعات
@@ -74,7 +74,7 @@
               <span>تعديل</span>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="error" large @click="showConfirmDeletion = true">
+            <v-btn color="error" large @click="showConfirmDeletion = true" v-if="$route.params.id != 0">
               <v-icon left>mdi-archive</v-icon>
               <span>ارشفة</span>
             </v-btn>
@@ -204,7 +204,7 @@ export default {
       response.phone_numbers = response.phone_numbers.split(",");
       response.discount_table = JSON.parse(response.discount_table);
       this.agency = response;
-      console.log(this.agency);
+      // console.log(this.agency);
       this.sellsAccount = await DB.get(
         `
         SELECT 

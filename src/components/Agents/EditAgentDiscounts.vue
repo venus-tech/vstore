@@ -108,7 +108,12 @@ export default {
         },
       ],
       nameErrors: [],
+      discounts: [],
     };
+  },
+  mounted(){
+    this.discounts = JSON.stringify(this.agency.discount_table);
+    this.discounts = JSON.parse(this.discounts);
   },
   methods: {
     sanitizeDiscountTable() {
@@ -164,6 +169,7 @@ export default {
       this.$emit("updated", newProduct);
     },
     cancel() {
+      this.agency.discount_table = this.discounts
       this.$emit("canceled", "GUI cancel event");
     },
   },

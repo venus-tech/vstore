@@ -55,14 +55,14 @@ export default {
   }),
   created(){
     db = conn.getConnection();
-    console.log(db)
+    // console.log(db)
   },
   methods:{
     loadData(){
       this.beforTime = new Date().getTime();
       db.all(`select * from ${this.table}`, [], (err, rows) => {
         if (err) {
-          console.log(err)
+          // console.log(err)
         }
         this.data = rows ;
         this.afterTime = new Date().getTime();
@@ -72,7 +72,7 @@ export default {
       this.beforTime = new Date().getTime();
       db.all(this.sql, [], (err, rows) => {
         if (err) {
-          console.log(err)
+          // console.log(err)
         }
         this.data = rows ;
         this.afterTime = new Date().getTime();
@@ -86,7 +86,7 @@ export default {
   },
   destroyed(){
     db.close()
-    console.log('db is destroyed')
+    // console.log('db is destroyed')
   }
 }
 </script>

@@ -1,3 +1,5 @@
+import db from '../../db';
+
 export default {
 	namespaced: true,
 	state: ()=>({
@@ -6,9 +8,12 @@ export default {
 		agency: null,
 		agentName: '',
 		products: [],
-		discount: 0.0,
+		taxes: [],
+		discounts: [],
+		discount: 0,
 		notes: '',
-		currentStep: 1
+		currentStep: 1,
+		isGeneralConfigurationsLoaded: false,
 	}),
 	getters: {
 		orderType(state){
@@ -29,11 +34,17 @@ export default {
 		currentStep(state){
 			return state.currentStep
 		},
-		discount(state){
-			return state.discount;
+		discounts(state){
+			return state.discounts;
+		},
+		taxes(state){
+			return state.taxes;
 		},
 		notes(state){
 			return state.notes;
+		},
+		isGeneralConfigurationsLoaded(state){
+			return state.isGeneralConfigurationsLoaded;
 		},
 		export(state){
 			return JSON.stringify(state);
@@ -74,15 +85,37 @@ export default {
 		setNotes(state, notes){
 			state.notes = notes;
 		},
-		resetCart(state){
-			state.orderType = null,
-			state.employee = null,
-			state.agency = null,
+		setTaxes(state, taxes){
+			state.taxes = taxes;
+		},
+		setDiscounts(state, discounts){
+			state.discounts = discounts;
+		},
+		configurationsLoaded(state, load){
+			load = true;
+			state.isGeneralConfigurationsLoaded = load;
+		},
+		async resetCart(state){
+			const DB = await db.getConnection();
+			const employee = await DB.get("SELECT * FROM employees WHERE id = 0");
+			employee.phone_numbers = employee.phone_numbers.split(',');
+
+			const agency = await DB.get("SELECT * FROM agencies WHERE id = 0");
+		
+			agency.phone_numbers = agency.phone_numbers.split(",");
+			agency.discount_table = JSON.parse(agency.discount_table);
+
+			state.orderType = '',
+			state.employee = employee,
+			state.agency = agency,
 			state.agentName = '',
 			state.products = [],
-			state.discount = 0.0,
+			state.taxes = [],
+			state.discounts = [],
 			state.notes = '',
-			state.currentStep = 1
+			state.discount = 0;
+			state.currentStep = 2
+			state.isGeneralConfigurationsLoaded = false;
 		},
 		import(state, cart){
 			state.orderType = cart.orderType,

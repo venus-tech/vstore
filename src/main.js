@@ -3,13 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import 'quill/dist/quill.snow.css';
 
 Vue.config.productionTip = false;
 
 
 new Vue({
-  router,
   store,
+  router,
   vuetify,
   render: h => h(App)
 }).$mount('#app')

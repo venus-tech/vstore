@@ -47,7 +47,7 @@ export default {
     },*/
     async getConnection(){
         try {
-            //console.log(dbPath);
+            // console.log(dbPath);
             this.DBConnection = await Database.open(dbPath);
             return this.DBConnection ;
         }catch(e){

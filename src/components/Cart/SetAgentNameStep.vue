@@ -36,6 +36,11 @@ export default {
       this.$store.commit('Cart/setAgentName', this.name);
       this.$emit('continue', 'GUI event')
     }
+  },
+  watch: {
+    name(){
+      this.$store.commit('Cart/setAgentName', this.name);
+    }
   }
 }
 </script>

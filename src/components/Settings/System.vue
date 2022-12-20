@@ -32,7 +32,7 @@ export default {
       const result = await electron.remote.dialog.showOpenDialog(null, {
         properties: ["openDirectory"],
       });
-      console.log("directories selected", result.filePaths);
+      // console.log("directories selected", result.filePaths);
       this.dataPath = result.filePaths[0]
     },
   },

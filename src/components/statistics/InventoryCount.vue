@@ -253,7 +253,7 @@ import db from '../../db';
 export default {
   data: () => ({
     tab: null,
-    dates: ['2020-01-01', '2020-01-01'],
+    dates: ['2020-07-01', '2020-07-01'],
     loading: false,
     sellOrders: {},
     purchaceOrders: {},

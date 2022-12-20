@@ -92,9 +92,9 @@ export default {
       const DB = await db.getConnection();
       const sql = `
         SELECT  
-          total_bill - discount as bill, 
+          total_bill as bill, 
           payed,
-          (total_bill - discount - payed) as debt
+          (total_bill  - payed) as debt
         FROM orders 
         WHERE id = :id
       `;

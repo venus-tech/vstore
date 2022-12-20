@@ -1,5 +1,14 @@
 <template>
   <v-card flat>
+    <v-card-text>
+      <v-text-field
+        label="اسم العميل"
+        hint="اسم العميل القادم من المتجر للقيام بالعملية"
+        v-model="name"
+        outlined
+        :error-messages="nameErrors"
+      ></v-text-field>
+    </v-card-text>
     <div v-if="showSelectAgency">
       <v-card-title>
         <v-row>
@@ -37,10 +46,10 @@
         <v-btn color="info" large @click="showSelectAgency = true">
           تغير المتجر
         </v-btn>
-        <v-spacer></v-spacer>
+        <!-- <v-spacer></v-spacer>
         <v-btn color="success" x-large @click="toNext" :disabled="showSelectAgency">
           متابعة
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
     </div>
   </v-card>
@@ -51,9 +60,11 @@ import db from '../../db';
 
 export default {
   data: ()=>({
+    name: '',
+    nameErrors: [],
     showSelectAgency: true,
     agentName: '',
-    agency: null,
+    agency: {},
     agencies: [],
     search: "",
     loading:false,
@@ -75,6 +86,7 @@ export default {
   }),
   async created(){
     this.showSelectAgency = this.$store.getters['Cart/agency'] == null ;
+    this.name = this.$store.getters['Cart/agentName'];
     await this.loadAgencies();
   },
   methods: {
@@ -84,10 +96,17 @@ export default {
     },
     selectAgency(agency){
       this.$store.commit('Cart/setAgency', agency);
+      // const discounts = this.$store.getters['Cart/agency'].discount_table;
+      // this.$store.commit('Cart/setDiscounts', discounts);
       this.showSelectAgency = false;
     },
     toNext(){
       this.$emit('continue', 'GUI event')
+    }
+  },
+  watch: {
+    name(){
+      this.$store.commit('Cart/setAgentName', this.name);
     }
   }
 }
